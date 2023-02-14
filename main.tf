@@ -5,4 +5,8 @@ provider "aws" {
 resource "aws_instance" "controller" {
   ami           = "ami-0d1ddd83282187d18" # Ubuntu 22.04 LTS in Frankfurt
   instance_type = "t2.micro"
+
+  tags = {
+    Name = "controller"
+  }
 }
