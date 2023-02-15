@@ -16,6 +16,7 @@ module "file_backup" {
   file_versioning = false
 }
 
+# Locks table for Terraform state
 resource "aws_dynamodb_table" "terraform_locks" {
   name         = "sirbizkit-infra-terraform-locks"
   billing_mode = "PAY_PER_REQUEST"
