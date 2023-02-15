@@ -2,6 +2,10 @@ provider "aws" {
   region = "eu-central-1"
 }
 
+module "terraform_state" {
+  source = "../../modules/s3/encrypted-private-s3-bucket"
+}
+
 resource "aws_s3_bucket" "terraform_state" {
   bucket = "sirbizkit-infra-terraform-state"
 
