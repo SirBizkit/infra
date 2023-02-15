@@ -2,6 +2,7 @@ provider "aws" {
   region = "eu-central-1"
 }
 
+# S3 bucket for shared Terraform state
 module "terraform_state" {
   source = "../../modules/s3/encrypted-private-s3-bucket"
 
@@ -9,6 +10,7 @@ module "terraform_state" {
   file_versioning = true
 }
 
+# S3 bucket for misc file backups
 module "file_backup" {
   source = "../../modules/s3/encrypted-private-s3-bucket"
 
