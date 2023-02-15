@@ -2,50 +2,34 @@ provider "aws" {
   region = "eu-central-1"
 }
 
+terraform {
+  backend "s3" {
+    bucket         = "sirbizkit-infra-terraform-state"
+    key            = "global/s3/terraform.tfstate"
+    region         = "eu-central-1"
+
+    dynamodb_table = "sirbizkit-infra-terraform-locks"
+    encrypt        = true
+  }
+}
+
+# S3 bucket for shared Terraform state
 module "terraform_state" {
   source = "../../modules/s3/encrypted-private-s3-bucket"
+
+  bucket_name = "sirbizkit-infra-terraform-state"
+  file_versioning = true
 }
 
-resource "aws_s3_bucket" "terraform_state" {
-  bucket = "sirbizkit-infra-terraform-state"
+# S3 bucket for misc file backups
+module "file_backup" {
+  source = "../../modules/s3/encrypted-private-s3-bucket"
 
-  tags = {
-    Name = "terraform_state"
-  }
-
-  lifecycle {
-    prevent_destroy = true # Prevent accidental deletion of this S3 bucket
-  }
+  bucket_name = "sirbizkit-infra-file-backup"
+  file_versioning = false
 }
 
-# Turn on file versioning
-resource "aws_s3_bucket_versioning" "enabled" {
-  bucket = aws_s3_bucket.terraform_state.id
-  versioning_configuration {
-    status = "Enabled"
-  }
-}
-
-# Enable server-side encryption
-resource "aws_s3_bucket_server_side_encryption_configuration" "default" {
-  bucket = aws_s3_bucket.terraform_state.id
-
-  rule {
-    apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
-    }
-  }
-}
-
-# Explicitly block all public access to this S3 bucket
-resource "aws_s3_bucket_public_access_block" "public_access" {
-  bucket                  = aws_s3_bucket.terraform_state.id
-  block_public_acls       = true
-  block_public_policy     = true
-  ignore_public_acls      = true
-  restrict_public_buckets = true
-}
-
+# Locks table for Terraform state
 resource "aws_dynamodb_table" "terraform_locks" {
   name         = "sirbizkit-infra-terraform-locks"
   billing_mode = "PAY_PER_REQUEST"
@@ -54,13 +38,5 @@ resource "aws_dynamodb_table" "terraform_locks" {
   attribute {
     name = "LockID"
     type = "S"
-  }
-}
-
-resource "aws_s3_bucket" "file-backup" {
-  bucket = "sirbizkit-infra-file-backup"
-
-  lifecycle {
-    prevent_destroy = true # Prevent accidental deletion of this S3 bucket
   }
 }
