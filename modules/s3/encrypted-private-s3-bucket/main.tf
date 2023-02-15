@@ -1,11 +1,7 @@
-resource "aws_s3_bucket" "terraform_state" {
-  bucket = "sirbizkit-infra-terraform-state"
+resource "aws_s3_bucket" "s3" {
+  bucket = var.bucket_name
 
   tags = {
-    Name = "terraform_state"
-  }
-
-  lifecycle {
-    prevent_destroy = true # Prevent accidental deletion of this S3 bucket
+    Name = var.bucket_name
   }
 }
