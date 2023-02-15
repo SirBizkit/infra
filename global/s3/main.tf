@@ -4,47 +4,29 @@ provider "aws" {
 
 module "terraform_state" {
   source = "../../modules/s3/encrypted-private-s3-bucket"
+
+  bucket_name = "sirbizkit-infra-terraform-state"
 }
 
-resource "aws_s3_bucket" "terraform_state" {
-  bucket = "sirbizkit-infra-terraform-state"
+#resource "aws_s3_bucket" "terraform_state" {
+#  bucket = "sirbizkit-infra-terraform-state"
+#
+#  tags = {
+#    Name = "terraform_state"
+#  }
+#
+#  lifecycle {
+#    prevent_destroy = true # Prevent accidental deletion of this S3 bucket
+#  }
+#}
 
-  tags = {
-    Name = "terraform_state"
-  }
-
-  lifecycle {
-    prevent_destroy = true # Prevent accidental deletion of this S3 bucket
-  }
-}
-
-# Turn on file versioning
-resource "aws_s3_bucket_versioning" "enabled" {
-  bucket = aws_s3_bucket.terraform_state.id
-  versioning_configuration {
-    status = "Enabled"
-  }
-}
-
-# Enable server-side encryption
-resource "aws_s3_bucket_server_side_encryption_configuration" "default" {
-  bucket = aws_s3_bucket.terraform_state.id
-
-  rule {
-    apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
-    }
-  }
-}
-
-# Explicitly block all public access to this S3 bucket
-resource "aws_s3_bucket_public_access_block" "public_access" {
-  bucket                  = aws_s3_bucket.terraform_state.id
-  block_public_acls       = true
-  block_public_policy     = true
-  ignore_public_acls      = true
-  restrict_public_buckets = true
-}
+## Turn on file versioning
+#resource "aws_s3_bucket_versioning" "enabled" {
+#  bucket = aws_s3_bucket.terraform_state.id
+#  versioning_configuration {
+#    status = "Enabled"
+#  }
+#}
 
 resource "aws_dynamodb_table" "terraform_locks" {
   name         = "sirbizkit-infra-terraform-locks"
