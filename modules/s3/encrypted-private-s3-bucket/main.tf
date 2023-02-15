@@ -10,6 +10,14 @@ resource "aws_s3_bucket" "s3" {
   }
 }
 
+# Conditionally turn on file versioning
+resource "aws_s3_bucket_versioning" "enabled" {
+  bucket = aws_s3_bucket.s3.id
+  versioning_configuration {
+    status = var.file_versioning ? "Enabled" : "Disabled"
+  }
+}
+
 # Enable server-side encryption
 resource "aws_s3_bucket_server_side_encryption_configuration" "default" {
   bucket = aws_s3_bucket.s3.id
