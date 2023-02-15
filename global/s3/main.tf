@@ -2,6 +2,17 @@ provider "aws" {
   region = "eu-central-1"
 }
 
+terraform {
+  backend "s3" {
+    bucket         = "sirbizkit-infra-terraform-state"
+    key            = "global/s3/terraform.tfstate"
+    region         = "eu-central-1"
+
+    dynamodb_table = "sirbizkit-infra-terraform-locks"
+    encrypt        = true
+  }
+}
+
 # S3 bucket for shared Terraform state
 module "terraform_state" {
   source = "../../modules/s3/encrypted-private-s3-bucket"
