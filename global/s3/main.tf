@@ -6,29 +6,17 @@ module "terraform_state" {
   source = "../../modules/s3/encrypted-private-s3-bucket"
 
   bucket_name = "sirbizkit-infra-terraform-state"
+  file_versioning = true
+  prevent_destroy = true
 }
 
-# Turn on file versioning
-resource "aws_s3_bucket_versioning" "enabled" {
-  bucket = aws_s3_bucket.terraform_state.id
-  versioning_configuration {
-    status = "Enabled"
-  }
+module "file_backup" {
+  source = "../../modules/s3/encrypted-private-s3-bucket"
+
+  bucket_name = "sirbizkit-infra-file-backup"
+  file_versioning = false
+  prevent_destroy = true
 }
-
-#resource "aws_s3_bucket" "terraform_state" {
-#  bucket = "sirbizkit-infra-terraform-state"
-#
-#  tags = {
-#    Name = "terraform_state"
-#  }
-#
-#  lifecycle {
-#    prevent_destroy = true # Prevent accidental deletion of this S3 bucket
-#  }
-#}
-
-
 
 resource "aws_dynamodb_table" "terraform_locks" {
   name         = "sirbizkit-infra-terraform-locks"
@@ -38,13 +26,5 @@ resource "aws_dynamodb_table" "terraform_locks" {
   attribute {
     name = "LockID"
     type = "S"
-  }
-}
-
-resource "aws_s3_bucket" "file-backup" {
-  bucket = "sirbizkit-infra-file-backup"
-
-  lifecycle {
-    prevent_destroy = true # Prevent accidental deletion of this S3 bucket
   }
 }
