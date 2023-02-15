@@ -7,7 +7,6 @@ module "terraform_state" {
 
   bucket_name = "sirbizkit-infra-terraform-state"
   file_versioning = true
-  prevent_destroy = true
 }
 
 module "file_backup" {
@@ -15,7 +14,6 @@ module "file_backup" {
 
   bucket_name = "sirbizkit-infra-file-backup"
   file_versioning = false
-  prevent_destroy = true
 }
 
 resource "aws_dynamodb_table" "terraform_locks" {
