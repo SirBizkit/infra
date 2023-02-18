@@ -1,6 +1,6 @@
-apt-get update
-apt-get upgrade
-apt-get install ec2-instance-connect
+#apt-get update
+#apt-get upgrade
+#apt-get install ec2-instance-connect
 
 until (curl -sfL https://get.k3s.io | sh -); do
   echo 'Waiting for k3s installation'
