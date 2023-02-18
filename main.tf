@@ -22,4 +22,12 @@ resource "aws_instance" "controller" {
   }
 }
 
-# ami-0abaf6cca7f5c0e6a # Ubuntu 22.04 ARM LTS in Frankfurt
+resource "aws_instance" "node" {
+  ami           = "ami-0abaf6cca7f5c0e6a" # Ubuntu 22.04 ARM LTS in Frankfurt
+  instance_type = "t4g.small"
+  count = 3
+
+  tags = {
+    Name = "node.${count.index}"
+  }
+}
