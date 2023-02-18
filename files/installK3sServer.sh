@@ -5,6 +5,6 @@ done
 
 until kubectl get pods -A | grep 'Running';
 do
-  echo 'Waiting for k3s to initialize'
+  echo 'Waiting for k3s server to initialize'
   sleep 5
 done
