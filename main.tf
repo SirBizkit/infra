@@ -61,11 +61,7 @@ resource "aws_instance" "controller" {
   ami           = "ami-0abaf6cca7f5c0e6a" # Ubuntu 22.04 ARM LTS in Frankfurt
   instance_type = "t4g.small"
   key_name      = aws_key_pair.accessKey.key_name
-  security_groups = [aws_security_group.ssh_access.name]
-#  provisioner "file" {
-#    source      = "files/installK3sServer.sh"
-#    destination = "/tmp/installK3sServer.sh"
-#  }
+  security_groups = [ aws_security_group.ssh_access.name ]
 
   user_data = file("files/installK3sServer.sh")
 
@@ -78,6 +74,8 @@ resource "aws_instance" "controller" {
 #resource "aws_instance" "node" {
 #  ami           = "ami-0abaf6cca7f5c0e6a" # Ubuntu 22.04 ARM LTS in Frankfurt
 #  instance_type = "t4g.small"
+#  key_name      = aws_key_pair.accessKey.key_name
+#  security_groups = [ aws_security_group.ssh_access.name ]
 #  count = 3
 #
 #  tags = {
