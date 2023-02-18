@@ -13,9 +13,18 @@ terraform {
   }
 }
 
+#resource "aws_instance" "controller" {
+#  ami           = "ami-0d1ddd83282187d18" # Ubuntu 22.04 LTS in Frankfurt
+#  instance_type = "t2.micro"
+#
+#  tags = {
+#    Name = "controller"
+#  }
+#}
+
 resource "aws_instance" "controller" {
-  ami           = "ami-0d1ddd83282187d18" # Ubuntu 22.04 LTS in Frankfurt
-  instance_type = "t2.micro"
+  ami           = "ami-0abaf6cca7f5c0e6a" # Ubuntu 22.04 LTS in Frankfurt
+  instance_type = "t4g.small"
 
   tags = {
     Name = "controller"
