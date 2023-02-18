@@ -14,7 +14,7 @@ terraform {
 }
 
 resource "aws_key_pair" "accessKey" {
-  key_name   = "deployer-key"
+  key_name   = "bizkitEc2KeyPair"
   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCw3aP7dogXFwwSV0eiD8m6PL/Txy8gluW3Ec2aXZou4IZxwqmgXNw5W3aN5ITjF5A60yLJLrgEWYETMrh+DFEKmXdcV1eFqdELZb5w7cjUnLNn66vLMVdojq+wY8gxijw5ikrttWLhD47KTKwaRH1w5n5zR4BjLNDCe5Qfj54EmgR5VH/0R2fbh974Q87nqlgvOpTWtFHwsmgp3jh2mWLdMM69unakt7zO6DyALqBQ2hfnLHnRUyot5H4+x82z8zgzL92EHvCPB6cVIVMuJbcZjKXk71BqPr7MMtgxZgmrG3Ru/m/eS1bsoc6h+GvU6tQDhz5uIBRCXN8KbMLDhpYR ec2KeyPair@bizkit"
 }
 
