@@ -21,3 +21,5 @@ resource "aws_instance" "controller" {
     Name = "controller"
   }
 }
+
+# ami-0abaf6cca7f5c0e6a # Ubuntu 22.04 ARM LTS in Frankfurt
