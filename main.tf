@@ -23,7 +23,7 @@ terraform {
 #}
 
 resource "aws_instance" "controller" {
-  ami           = "ami-0abaf6cca7f5c0e6a" # Ubuntu 22.04 LTS in Frankfurt
+  ami           = "ami-0abaf6cca7f5c0e6a" # Ubuntu 22.04 ARM LTS in Frankfurt
   instance_type = "t4g.small"
 
   tags = {
