@@ -47,6 +47,22 @@ resource "aws_security_group" "ssh_access" {
   ]
 }
 
+resource "aws_security_group" "k3s_https_access" {
+  ingress                = [
+    {
+      cidr_blocks      = [ "0.0.0.0/0", ]
+      description      = ""
+      from_port        = 6443
+      ipv6_cidr_blocks = []
+      prefix_list_ids  = []
+      protocol         = "tcp"
+      security_groups  = []
+      self             = false
+      to_port          = 6443
+    }
+  ]
+}
+
 
 #resource "aws_instance" "controller" {
 #  ami           = "ami-0d1ddd83282187d18" # Ubuntu 22.04 LTS in Frankfurt
@@ -61,7 +77,7 @@ resource "aws_instance" "controller" {
   ami           = "ami-0abaf6cca7f5c0e6a" # Ubuntu 22.04 ARM LTS in Frankfurt
   instance_type = "t4g.small"
   key_name      = aws_key_pair.access_key.key_name
-  security_groups = [ aws_security_group.ssh_access.name ]
+  security_groups = [ aws_security_group.ssh_access.name, aws_security_group.k3s_health_access.name ]
 
   user_data = file("files/installK3sServer.sh")
 
@@ -70,13 +86,13 @@ resource "aws_instance" "controller" {
   }
 }
 
-resource "null_resource" "k3s_init" {
-  provisioner "remote-exec" {
-    inline = [
-      "while [ ! -f /tmp/serverInitComplete ]; do sleep 2; done",
-    ]
-  }
-}
+#resource "null_resource" "k3s_init" {
+#  provisioner "remote-exec" {
+#    inline = [
+#      "while [ ! -f /tmp/serverInitComplete ]; do sleep 2; done",
+#    ]
+#  }
+#}
 
 ## Trial 750h/month free UNTIL Dec 31st 2023! Revisit after trial over!
 #resource "aws_instance" "node" {
