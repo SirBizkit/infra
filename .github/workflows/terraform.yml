@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - feature/*
   pull_request:
 
 jobs:
@@ -13,7 +14,11 @@ jobs:
     permissions:
       pull-requests: write
     steps:
-      - uses: hashicorp/setup-terraform@v2
+      - id: checkout
+        uses: actions/checkout@v3
+
+      - id: terraform-setup
+        uses: hashicorp/setup-terraform@v2
 
       - id: init
         run: terraform init
