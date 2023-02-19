@@ -28,6 +28,7 @@ jobs:
       - id: init
         run: terraform init -no-color
 
+      # The binary terraform-bin must be used when capturing output and the terraform_wrapper is enabled
       - id: plan
         run: terraform-bin plan -no-color
 
