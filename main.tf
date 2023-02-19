@@ -105,3 +105,7 @@ resource "aws_instance" "controller" {
 #    aws_instance.controller
 #  ]
 #}
+
+output "instance_ip_addr" {
+  value = aws_instance.controller.public_ip
+}
