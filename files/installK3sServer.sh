@@ -1,6 +1,4 @@
-#apt-get update
-#apt-get upgrade
-#apt-get install ec2-instance-connect
+#!/bin/bash
 
 until (curl -sfL https://get.k3s.io | sh -); do
   echo 'Waiting for k3s installation'
@@ -12,3 +10,5 @@ do
   echo 'Waiting for k3s server to initialize'
   sleep 5
 done
+
+touch /tmp/serverInitComplete
