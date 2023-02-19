@@ -12,3 +12,5 @@ do
   echo 'Waiting for k3s server to initialize'
   sleep 5
 done
+
+touch /tmp/serverInitComplete
