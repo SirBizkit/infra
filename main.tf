@@ -79,7 +79,7 @@ resource "aws_instance" "controller" {
   key_name      = aws_key_pair.access_key.key_name
   security_groups = [ aws_security_group.ssh_access.name, aws_security_group.k3s_https_access.name ]
 
-  user_data = file("files/installK3sServer.sh")
+  user_data = "${file("files/installK3sServer.sh")}"
 
   tags = {
     Name = "controller"
