@@ -18,7 +18,7 @@ resource "aws_key_pair" "access_key" {
   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCw3aP7dogXFwwSV0eiD8m6PL/Txy8gluW3Ec2aXZou4IZxwqmgXNw5W3aN5ITjF5A60yLJLrgEWYETMrh+DFEKmXdcV1eFqdELZb5w7cjUnLNn66vLMVdojq+wY8gxijw5ikrttWLhD47KTKwaRH1w5n5zR4BjLNDCe5Qfj54EmgR5VH/0R2fbh974Q87nqlgvOpTWtFHwsmgp3jh2mWLdMM69unakt7zO6DyALqBQ2hfnLHnRUyot5H4+x82z8zgzL92EHvCPB6cVIVMuJbcZjKXk71BqPr7MMtgxZgmrG3Ru/m/eS1bsoc6h+GvU6tQDhz5uIBRCXN8KbMLDhpYR ec2KeyPair@bizkit"
 }
 
-resource "aws_security_group" "ssh_access" {
+resource "aws_security_group" "egress_all" {
   egress = [
     {
       cidr_blocks      = [ "0.0.0.0/0", ]
@@ -32,6 +32,9 @@ resource "aws_security_group" "ssh_access" {
       to_port          = 0
     }
   ]
+}
+
+resource "aws_security_group" "ssh_access" {
   ingress                = [
     {
       cidr_blocks      = [ "0.0.0.0/0", ]
@@ -77,7 +80,7 @@ resource "aws_instance" "controller" {
   ami           = "ami-0abaf6cca7f5c0e6a" # Ubuntu 22.04 ARM LTS in Frankfurt
   instance_type = "t4g.small"
   key_name      = aws_key_pair.access_key.key_name
-  security_groups = [ aws_security_group.ssh_access.name, aws_security_group.k3s_https_access.name ]
+  security_groups = [ aws_security_group.egress_all.name, aws_security_group.ssh_access.name, aws_security_group.k3s_https_access.name ]
 
   user_data = "${file("files/installK3sServer.sh")}"
 
