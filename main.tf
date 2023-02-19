@@ -77,7 +77,7 @@ resource "aws_instance" "controller" {
   ami           = "ami-0abaf6cca7f5c0e6a" # Ubuntu 22.04 ARM LTS in Frankfurt
   instance_type = "t4g.small"
   key_name      = aws_key_pair.access_key.key_name
-  security_groups = [ aws_security_group.ssh_access.name, aws_security_group.k3s_health_access.name ]
+  security_groups = [ aws_security_group.ssh_access.name, aws_security_group.k3s_https_access.name ]
 
   user_data = file("files/installK3sServer.sh")
 
