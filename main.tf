@@ -70,6 +70,14 @@ resource "aws_instance" "controller" {
   }
 }
 
+resource "null_resource" "k3s_init" {
+  provisioner "remote-exec" {
+    inline = [
+      "while [ ! -f /tmp/serverInitComplete ]; do sleep 2; done",
+    ]
+  }
+}
+
 ## Trial 750h/month free UNTIL Dec 31st 2023! Revisit after trial over!
 #resource "aws_instance" "node" {
 #  ami           = "ami-0abaf6cca7f5c0e6a" # Ubuntu 22.04 ARM LTS in Frankfurt
