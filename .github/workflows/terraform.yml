@@ -22,14 +22,14 @@ jobs:
 
       - id: terraform-setup
         uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_wrapper: false # Disable the wrapper, as it conflicts with output capture
+#        with:
+#          terraform_wrapper: false # Disable the wrapper, as it conflicts with output capture
 
       - id: init
         run: terraform init -no-color
 
       - id: plan
-        run: terraform plan -no-color
+        run: terraform-bin plan -no-color
 
       - run: echo ${{ steps.plan.outputs.stdout }}
       - run: echo ${{ steps.plan.outputs.stderr }}
