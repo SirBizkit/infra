@@ -32,12 +32,13 @@ jobs:
       - id: plan
         run: terraform-bin plan -no-color
 
-      - run: echo ${{ steps.plan.outputs.stdout }}
-      - run: echo ${{ steps.plan.outputs.stderr }}
-      - run: echo ${{ steps.plan.outputs.exitcode }}
-
       - id: apply
         run: terraform apply -no-color -auto-approve -input=false
+
+      - run: echo ${{ steps.apply.outputs.stdout }}
+      - run: echo ${{ steps.apply.outputs.stderr }}
+      - run: echo ${{ steps.apply.outputs.exitcode }}
+      - run: echo ${{ steps.apply.outputs.instance_ip_addr }}
 
       - id: destroy
         if: ${{ always() }}
