@@ -32,7 +32,7 @@ jobs:
       - id: plan
         run: terraform plan -no-color
 
-      - run: echo ${{ steps.apply.outputs.instance_ip_addr }}
+      - run: echo ${{ steps.plan }}
 
 #      - id: apply
 #        run: terraform apply -no-color -auto-approve -input=false
