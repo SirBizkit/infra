@@ -24,20 +24,20 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_wrapper: false # Disable the wrapper, as it conflicts with output capture
+                                   # The binary terraform-bin must be used when capturing output and the terraform_wrapper is enabled
 
       - id: init
         run: terraform init -no-color
 
-      # The binary terraform-bin must be used when capturing output and the terraform_wrapper is enabled
       - id: plan
         run: terraform plan -no-color
 
       - id: apply
         run: terraform apply -no-color -auto-approve -input=false
 
-      - run: echo ${{ steps.apply.outputs.stdout }}
-      - run: echo ${{ steps.apply.outputs.stderr }}
-      - run: echo ${{ steps.apply.outputs.exitcode }}
+#      - run: echo ${{ steps.apply.outputs.stdout }}
+#      - run: echo ${{ steps.apply.outputs.stderr }}
+#      - run: echo ${{ steps.apply.outputs.exitcode }}
       - run: echo ${{ steps.apply.outputs.instance_ip_addr }}
 
       - id: destroy
