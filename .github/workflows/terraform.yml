@@ -22,9 +22,9 @@ jobs:
 
       - id: terraform-setup
         uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_wrapper: false # Disable the wrapper, as it conflicts with output capture
-                                   # The binary terraform-bin must be used when capturing output and the terraform_wrapper is enabled
+#        with:
+#          terraform_wrapper: false # Disable the wrapper, as it conflicts with output capture
+#                                   # The binary terraform-bin must be used when capturing output and the terraform_wrapper is enabled
 
       - id: init
         run: terraform init -no-color
