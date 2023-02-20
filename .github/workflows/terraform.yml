@@ -13,25 +13,33 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     steps:
       - id: checkout
         uses: actions/checkout@v3
 
       - id: terraform-setup
         uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_wrapper: false # Disable the wrapper, as it conflicts with output capture
+                                   # The binary terraform-bin must be used when capturing output and the terraform_wrapper is enabled
 
       - id: init
-        run: terraform init
+        run: terraform init -no-color
 
       - id: plan
         run: terraform plan -no-color
 
-      - run: echo ${{ steps.plan.outputs.stdout }}
-      - run: echo ${{ steps.plan.outputs.stderr }}
-      - run: echo ${{ steps.plan.outputs.exitcode }}
-
       - id: apply
-        run: terraform apply -auto-approve -input=false
+        run: terraform apply -no-color -auto-approve -input=false
+
+#      - run: echo ${{ steps.apply.outputs.stdout }}
+#      - run: echo ${{ steps.apply.outputs.stderr }}
+#      - run: echo ${{ steps.apply.outputs.exitcode }}
+      - run: echo ${{ steps.apply.outputs.instance_ip_addr }}
 
       - id: destroy
-        run: terraform destroy -auto-approve -input=false
+        if: ${{ always() }}
+        run: terraform destroy -no-color -auto-approve -input=false
