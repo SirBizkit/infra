@@ -30,7 +30,7 @@ jobs:
 
       # The binary terraform-bin must be used when capturing output and the terraform_wrapper is enabled
       - id: plan
-        run: terraform-bin plan -no-color
+        run: terraform plan -no-color
 
       - id: apply
         run: terraform apply -no-color -auto-approve -input=false
