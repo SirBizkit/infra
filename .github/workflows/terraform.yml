@@ -39,7 +39,7 @@ jobs:
         run: terraform output -no-color -json
 
       - id: output_print
-        run: printf ${{ steps.output.outputs.stdout }}
+        run: echo "${{ steps.output.outputs.stdout }}"
 
       - id: destroy
         if: ${{ always() }}
