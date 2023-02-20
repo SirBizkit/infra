@@ -34,11 +34,6 @@ jobs:
 
       - run: echo ${{ steps.plan }}
 
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: |
-            echo "$GITHUB_CONTEXT"
 
 #      - id: apply
 #        run: terraform apply -no-color -auto-approve -input=false
