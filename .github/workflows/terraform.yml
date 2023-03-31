@@ -37,6 +37,6 @@ jobs:
       - id: print_output
         run: echo "${{ steps.output.outputs.stdout }}"
 
-      - id: terraform destroy
+      - id: terraform-destroy
         if: ${{ always() }}
         run: terraform destroy -no-color -auto-approve -input=false
