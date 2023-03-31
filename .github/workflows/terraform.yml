@@ -43,7 +43,7 @@ jobs:
       - id: host-template
         run: |
           cp ansible/hosts-template.ini ansible/hosts.ini; \
-          yq "${{ steps.output.outputs.stdout }}"
+#          yq "${{ steps.output.outputs.stdout }}"
 
       - id: terraform-destroy
         if: ${{ always() }}
