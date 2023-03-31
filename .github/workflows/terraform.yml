@@ -41,7 +41,9 @@ jobs:
         uses: mikefarah/yq@v4.33.2
 
       - id: host-template
-        run: yq
+        run: |
+          cp ansible/hosts-template.ini ansible/hosts.ini; \
+          yq "${{ steps.output.outputs.stdout }}"
 
       - id: terraform-destroy
         if: ${{ always() }}
