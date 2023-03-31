@@ -40,10 +40,15 @@ jobs:
       - id: setup-yq
         uses: mikefarah/yq@v4.33.2
 
+      # TODO: turn controllerIps into a list like nodeIps
       - id: host-template
         run: |
           cp ansible/hosts-template.ini ansible/hosts.ini; \
-#          yq "${{ steps.output.outputs.stdout }}"
+          nodeIps = echo ${{ steps.output.outputs.stdout }} | yq e '.node_ip_addr.value[0][] as $ips | $ips'; \
+          controllerIps = echo ${{ steps.output.outputs.stdout }} | yq e '.controller_ip_addr.value as $ip | $ip'; \
+          echo $nodeIps \
+          echo $controllerIps \
+          
 
       - id: terraform-destroy
         if: ${{ always() }}
