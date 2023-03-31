@@ -92,26 +92,26 @@ resource "aws_instance" "controller" {
 }
 
 ## Trial 750h/month free UNTIL Dec 31st 2023! Revisit after trial over!
-resource "aws_instance" "node" {
-  ami           = "ami-0abaf6cca7f5c0e6a" # Ubuntu 22.04 ARM LTS in Frankfurt
-  instance_type = "t4g.small"
-  key_name      = aws_key_pair.access_key.key_name
-  security_groups = [ aws_security_group.ssh_access.name ]
-  count = 3
-
-  tags = {
-    Name = "node.${count.index}"
-  }
-
-  depends_on = [
-    aws_instance.controller
-  ]
-}
+#resource "aws_instance" "node" {
+#  ami           = "ami-0abaf6cca7f5c0e6a" # Ubuntu 22.04 ARM LTS in Frankfurt
+#  instance_type = "t4g.small"
+#  key_name      = aws_key_pair.access_key.key_name
+#  security_groups = [ aws_security_group.ssh_access.name ]
+#  count = 3
+#
+#  tags = {
+#    Name = "node.${count.index}"
+#  }
+#
+#  depends_on = [
+#    aws_instance.controller
+#  ]
+#}
 
 output "controller_ip_addr" {
   value = aws_instance.controller.public_ip
 }
 
-output "node_ip_addr" {
-  value = aws_instance.node.*.public_ip
-}
+#output "node_ip_addr" {
+#  value = aws_instance.node.*.public_ip
+#}
