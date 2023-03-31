@@ -113,5 +113,5 @@ output "controller_ip_addr" {
 }
 
 output "node_ip_addr" {
-  value = aws_instance.node[count.index].public_ip
+  value = [ "${aws_instance.node.*.public_ip}" ]
 }
