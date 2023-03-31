@@ -34,8 +34,14 @@ jobs:
       - id: output
         run: terraform output -no-color -json
 
-      - id: print_output
+      - id: print-output
         run: echo "${{ steps.output.outputs.stdout }}"
+
+      - id: setup-yq
+        uses: mikefarah/yq@v4.33.2
+
+      - id: host-template
+        run: yq
 
       - id: terraform-destroy
         if: ${{ always() }}
