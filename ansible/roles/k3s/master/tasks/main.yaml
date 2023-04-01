@@ -7,8 +7,8 @@
 
 - name: Copy dashnboard ingress definition
   copy:
-  src: "{{ playbook_dir }}/dashboardIngress.yaml"
-  dest: "~/dashboardIngress.yaml"
+    src: "{{ playbook_dir }}/dashboardIngress.yaml"
+    dest: "~/dashboardIngress.yaml"
 
 - name: Apply dashboard ingress config
   command: >-
