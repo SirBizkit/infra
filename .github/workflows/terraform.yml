@@ -47,8 +47,8 @@ jobs:
         run: |
           cp ansible/hosts-template.ini ansible/hosts.ini; \
           echo ${{ steps.output.outputs.stdout }} > ansible/terraformOut.json \
-          export CONTROLLER_IPS=$(cat ansible/terraformOut.json | yq e '.controller_ip_addr.value as $ip | $ip | @sh') \
-          export NODE_IPS=$(cat ansible/terraformOut.json | yq e '.node_ip_addr.value[0][] as $ips | $ips | @sh') \
+          export CONTROLLER_IPS=$(cat ansible/terraformOut.json | yq e '.controller_ip_addr.value as $ip | $ip' -) \
+          export NODE_IPS=$(cat ansible/terraformOut.json | yq e '.node_ip_addr.value[0][] as $ips | $ips' -) \
           echo $CONTROLLER_IPS \
           echo $NODE_IPS \
           envsubst '$CONTROLLER_IPS' < ansible/hosts.ini \
