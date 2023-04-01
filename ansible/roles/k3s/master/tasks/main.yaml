@@ -7,5 +7,5 @@
 
 - name: Apply dashboard ingress config
   command: >-
-    kubectl apply -f ansible/dashboardIngress.yaml
+    kubectl apply -f "{{ playbook_dir }}/dashboardIngress.yaml"
   changed_when: true
