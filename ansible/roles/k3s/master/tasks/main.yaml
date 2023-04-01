@@ -7,5 +7,5 @@
 
 - name: Apply dashboard ingress config
   command: >-
-    kubectl apply -f dashboardIngress.yaml
+    kubectl apply -f ansible/dashboardIngress.yaml
   changed_when: true
