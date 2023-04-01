@@ -54,7 +54,7 @@ resource "aws_security_group" "k3s_https_access" {
   ingress                = [
     {
       cidr_blocks      = [ "0.0.0.0/0", ]
-      description      = ""
+      description      = "K3s port"
       from_port        = 6443
       ipv6_cidr_blocks = []
       prefix_list_ids  = []
@@ -62,6 +62,17 @@ resource "aws_security_group" "k3s_https_access" {
       security_groups  = []
       self             = false
       to_port          = 6443
+    },
+    {
+      cidr_blocks      = [ "0.0.0.0/0", ]
+      description      = "Dashboard port"
+      from_port        = 8443
+      ipv6_cidr_blocks = []
+      prefix_list_ids  = []
+      protocol         = "tcp"
+      security_groups  = []
+      self             = false
+      to_port          = 8443
     }
   ]
 }
