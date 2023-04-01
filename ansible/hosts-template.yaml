@@ -1,9 +1,0 @@
-all:
-  controllers:
-    hosts:
-      controller.example.com:
-  nodes:
-    hosts:
-      node01.example.com:
-      node02.example.com:
-      node03.example.com:
