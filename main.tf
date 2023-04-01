@@ -66,6 +66,17 @@ resource "aws_security_group" "k3s_https_access" {
     {
       cidr_blocks      = [ "0.0.0.0/0", ]
       description      = "Dashboard port"
+      from_port        = 8443
+      ipv6_cidr_blocks = []
+      prefix_list_ids  = []
+      protocol         = "tcp"
+      security_groups  = []
+      self             = false
+      to_port          = 8443
+    },
+    {
+      cidr_blocks      = [ "0.0.0.0/0", ]
+      description      = "Dashboard port"
       from_port        = 443
       ipv6_cidr_blocks = []
       prefix_list_ids  = []
@@ -73,6 +84,17 @@ resource "aws_security_group" "k3s_https_access" {
       security_groups  = []
       self             = false
       to_port          = 443
+    },
+    {
+      cidr_blocks      = [ "0.0.0.0/0", ]
+      description      = "Dashboard port"
+      from_port        = 80
+      ipv6_cidr_blocks = []
+      prefix_list_ids  = []
+      protocol         = "tcp"
+      security_groups  = []
+      self             = false
+      to_port          = 80
     }
   ]
 }
