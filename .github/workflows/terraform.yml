@@ -63,7 +63,7 @@ jobs:
           export NODE_IPS=$(cat ansible/terraformOut.json | yq '.node_ip_addr.value[0][] as $ips | $ips')
           echo $CONTROLLER_IPS
           echo $NODE_IPS
-          cat ansible/hosts-template.ini | envsubst '$CONTROLLER_IPS $NODE_IPS' > ansible/hosts.ini
+          cat ansible/hosts-template.ini | envsubst '${CONTROLLER_IPS} ${NODE_IPS}' > ansible/hosts.ini
           cat ansible/hosts.ini
 
 #      - id: terraform-destroy
