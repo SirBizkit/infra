@@ -57,8 +57,6 @@ jobs:
       # TODO: Move generated hosts.ini to build/
       - id: host-template
         run: |
-#          cp ansible/hosts-template.ini ansible/hosts.ini; \
-#          echo ${{ steps.output.outputs.stdout }} > ansible/terraformOut.json \
           export CONTROLLER_IPS=echo "${{ steps.get-controller-ip.outputs.result }}" \
           export NODE_IPS=echo "${{ steps.get-node-ip.outputs.result }}" \
           echo $CONTROLLER_IPS \
