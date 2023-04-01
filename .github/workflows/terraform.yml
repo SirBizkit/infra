@@ -44,7 +44,6 @@ jobs:
 
       # TODO: Turn controllerIps into a list like nodeIps
       # TODO: Add node names to ansible config
-      # TODO: Move generated hosts.ini to build/
       - id: host-template
         run: |
           export CONTROLLER_IPS=$(cat build/terraformOut.json | yq '.controller_ip_addr.value as $ip | $ip')
