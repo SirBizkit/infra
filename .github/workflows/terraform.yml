@@ -71,9 +71,19 @@ jobs:
           options: |
             --inventory build/hosts.ini
             --extra-vars "@ansible/group_vars/all.yaml"
-#            --limit group1
-#            --extra-vars hello=there
-#            --verbose
+
+      - id: ansible-install-dashboard
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          # Required, playbook filepath
+          playbook: ansible/k3sDashboard.yaml
+
+          # Optional, SSH private key
+          key: ${{secrets.EC2_KEY_PAIR}}
+
+#          options: |
+#            --inventory build/hosts.ini
+#            --extra-vars "@ansible/group_vars/all.yaml"
 
 #      - id: terraform-destroy
 #        if: ${{ always() }}
