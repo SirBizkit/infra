@@ -81,9 +81,9 @@ jobs:
           # Optional, SSH private key
           key: ${{secrets.EC2_KEY_PAIR}}
 
-#          options: |
-#            --inventory build/hosts.ini
-#            --extra-vars "@ansible/group_vars/all.yaml"
+          options: |
+            --inventory build/hosts.ini
+            --extra-vars "@ansible/group_vars/all.yaml"
 
 #      - id: terraform-destroy
 #        if: ${{ always() }}
