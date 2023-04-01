@@ -54,6 +54,6 @@ jobs:
           echo "Generated build/hosts.ini:"
           cat build/hosts.ini
 
-      - id: terraform-destroy
-        if: ${{ always() }}
-        run: terraform destroy -no-color -auto-approve -input=false
+#      - id: terraform-destroy
+#        if: ${{ always() }}
+#        run: terraform destroy -no-color -auto-approve -input=false
