@@ -45,11 +45,13 @@ jobs:
       - id: host-template
         run: |
           cp ansible/hosts-template.ini ansible/hosts.ini; \
-          nodeIps = echo ${{ steps.output.outputs.stdout }} | yq e '.node_ip_addr.value[0][] as $ips | $ips'; \
           controllerIps = echo ${{ steps.output.outputs.stdout }} | yq e '.controller_ip_addr.value as $ip | $ip'; \
-          echo $nodeIps \
+          nodeIps = echo ${{ steps.output.outputs.stdout }} | yq e '.node_ip_addr.value[0][] as $ips | $ips'; \
           echo $controllerIps \
-          
+          echo $nodeIps \
+          envsubst '$controllerIps' < ansible/hosts.ini \
+          envsubst '$nodeIps' < ansible/hosts.ini \
+          cat ansible/hosts.ini
 
       - id: terraform-destroy
         if: ${{ always() }}
