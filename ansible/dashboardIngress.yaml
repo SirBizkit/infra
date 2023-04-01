@@ -6,7 +6,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    # nginx.ingress.kubernetes.io/ssl-passthrough: "true"
     # Uncomment next if you use https://cert-manager.io/
     # cert-manager.io/cluster-issuer: "<YOUR CLUSTER ISSUER>"
 spec:
