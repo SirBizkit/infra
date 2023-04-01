@@ -39,7 +39,7 @@ jobs:
 
       - id: copy-host-template
         run: |
-          cp ansible/hosts-template.ini ansible/hosts.ini \
+          cp ansible/hosts-template.ini ansible/hosts.ini; \
           echo ${{ steps.output.outputs.stdout }} > ansible/terraformOut.json
 
       - id: get-controller-ip
