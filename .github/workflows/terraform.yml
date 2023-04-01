@@ -42,11 +42,12 @@ jobs:
 
       # TODO: Turn controllerIps into a list like nodeIps
       # TODO: Add node names to ansible config
+      # TODO: Move generated hosts.ini to build/
       - id: host-template
         run: |
           cp ansible/hosts-template.ini ansible/hosts.ini; \
-          controllerIps = echo ${{ steps.output.outputs.stdout }} | yq e '.controller_ip_addr.value as $ip | $ip'; \
-          nodeIps = echo ${{ steps.output.outputs.stdout }} | yq e '.node_ip_addr.value[0][] as $ips | $ips'; \
+          export controllerIps = echo ${{ steps.output.outputs.stdout }} | yq e '.controller_ip_addr.value as $ip | $ip'; \
+          export nodeIps = echo ${{ steps.output.outputs.stdout }} | yq e '.node_ip_addr.value[0][] as $ips | $ips'; \
           echo $controllerIps \
           echo $nodeIps \
           envsubst '$controllerIps' < ansible/hosts.ini \
