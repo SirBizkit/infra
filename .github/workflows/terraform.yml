@@ -18,6 +18,8 @@ jobs:
     steps:
       - id: checkout
         uses: actions/checkout@v3
+        with:
+          submodules: recursive
 
       - id: terraform-setup
         uses: hashicorp/setup-terraform@v2
@@ -53,6 +55,8 @@ jobs:
           cat ansible/hosts-template.ini | envsubst '${CONTROLLER_IPS} ${NODE_IPS}' > build/hosts.ini
           echo "Generated build/hosts.ini:"
           cat build/hosts.ini
+
+#        -id: ansible
 
 #      - id: terraform-destroy
 #        if: ${{ always() }}
