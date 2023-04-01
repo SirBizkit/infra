@@ -40,7 +40,8 @@ jobs:
       - id: setup-yq
         uses: mikefarah/yq@v4.33.2
 
-      # TODO: turn controllerIps into a list like nodeIps
+      # TODO: Turn controllerIps into a list like nodeIps
+      # TODO: Add node names to ansible config
       - id: host-template
         run: |
           cp ansible/hosts-template.ini ansible/hosts.ini; \
