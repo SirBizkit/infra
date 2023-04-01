@@ -10,10 +10,8 @@ metadata:
     # Uncomment next if you use https://cert-manager.io/
     # cert-manager.io/cluster-issuer: "<YOUR CLUSTER ISSUER>"
 spec:
-#  tls:
-#    - hosts:
-#        - bw-npe.net
-#      secretName: kubernetes-dashboard-cert
+  tls:
+      secretName: kubernetes-dashboard-cert # NONEXISTENT
   rules:
     - http:
         paths:
@@ -23,4 +21,4 @@ spec:
               service:
                 name: kubernetes-dashboard
                 port:
-                  number: 8443
+                  number: 443
