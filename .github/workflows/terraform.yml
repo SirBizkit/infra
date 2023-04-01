@@ -35,7 +35,9 @@ jobs:
         run: terraform output -no-color -json
 
       - id: print-and-save-output
-        run: echo "${{ steps.output.outputs.stdout }}" | tee ansible/terraformOut.json
+        run: |
+          mkdir build
+          echo "${{ steps.output.outputs.stdout }}" | tee build/terraformOut.json
 
       - id: setup-yq
         uses: mikefarah/yq@v4.33.2
