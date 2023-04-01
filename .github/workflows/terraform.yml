@@ -39,8 +39,8 @@ jobs:
 
       - id: copy-host-template
         run: |
-          cp ansible/hosts-template.ini ansible/hosts.ini; \
-          echo ${{ steps.output.outputs.stdout }} > ansible/terraformOut.json
+          cp ansible/hosts-template.ini ansible/hosts.ini
+          echo "${{ steps.output.outputs.stdout }}" > ansible/terraformOut.json
 
       - id: get-controller-ip
         uses: mikefarah/yq@v4.33.2
@@ -57,12 +57,12 @@ jobs:
       # TODO: Move generated hosts.ini to build/
       - id: host-template
         run: |
-          export CONTROLLER_IPS=echo "${{ steps.get-controller-ip.outputs.result }}" \
-          export NODE_IPS=echo "${{ steps.get-node-ip.outputs.result }}" \
-          echo $CONTROLLER_IPS \
-          echo $NODE_IPS \
-          envsubst '$CONTROLLER_IPS' < ansible/hosts.ini \
-          envsubst '$NODE_IPS' < ansible/hosts.ini \
+          export CONTROLLER_IPS=echo "${{ steps.get-controller-ip.outputs.result }}"
+          export NODE_IPS=echo "${{ steps.get-node-ip.outputs.result }}"
+          echo $CONTROLLER_IPS
+          echo $NODE_IPS
+          envsubst '$CONTROLLER_IPS' < ansible/hosts.ini
+          envsubst '$NODE_IPS' < ansible/hosts.ini
           cat ansible/hosts.ini
 
       - id: terraform-destroy
