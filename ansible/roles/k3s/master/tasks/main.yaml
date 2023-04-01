@@ -1,0 +1,16 @@
+---
+
+- name: Install k3s dashboard
+  command: >-
+    kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
+  changed_when: true
+
+- name: Copy dashnboard ingress definition
+  copy:
+    src: "{{ playbook_dir }}/dashboardIngress.yaml"
+    dest: "~/dashboardIngress.yaml"
+
+- name: Apply dashboard ingress config
+  command: >-
+    kubectl apply -f "~/dashboardIngress.yaml"
+  changed_when: true

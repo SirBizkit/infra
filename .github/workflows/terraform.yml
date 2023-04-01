@@ -18,6 +18,8 @@ jobs:
     steps:
       - id: checkout
         uses: actions/checkout@v3
+        with:
+          submodules: recursive
 
       - id: terraform-setup
         uses: hashicorp/setup-terraform@v2
@@ -34,9 +36,55 @@ jobs:
       - id: output
         run: terraform output -no-color -json
 
-      - id: print_output
-        run: echo "${{ steps.output.outputs.stdout }}"
+      - id: print-and-save-output
+        run: |
+          mkdir build
+          echo "${{ steps.output.outputs.stdout }}" | tee build/terraformOut.json
 
-      - id: destroy
+      - id: setup-yq
+        uses: mikefarah/yq@v4.33.2
+
+      # TODO: Turn controllerIps into a list like nodeIps
+      # TODO: Add node names to ansible config
+      - id: host-template
+        run: |
+          export CONTROLLER_IPS=$(cat build/terraformOut.json | yq '.controller_ip_addr.value as $ip | $ip')
+          export NODE_IPS=$(cat build/terraformOut.json | yq '.node_ip_addr.value[] as $ips | $ips')
+          echo $CONTROLLER_IPS
+          echo $NODE_IPS
+          cat ansible/hosts-template.ini | envsubst '${CONTROLLER_IPS} ${NODE_IPS}' > build/hosts.ini
+          echo "Generated build/hosts.ini:"
+          cat build/hosts.ini
+
+      - id: run-ansible-playbook
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          # Required, playbook filepath
+          playbook: k3s-ansible/site.yml
+
+          # Optional, SSH private key
+          key: ${{secrets.EC2_KEY_PAIR}}
+
+#          # Optional, galaxy requirements filepath
+#          requirements: galaxy-requirements.yml
+          # Optional, additional flags to pass to ansible-playbook
+          options: |
+            --inventory build/hosts.ini
+            --extra-vars "@ansible/group_vars/all.yaml"
+
+      - id: ansible-install-dashboard
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          # Required, playbook filepath
+          playbook: ansible/k3sDashboard.yaml
+
+          # Optional, SSH private key
+          key: ${{secrets.EC2_KEY_PAIR}}
+
+          options: |
+            --inventory build/hosts.ini
+            --extra-vars "@ansible/group_vars/all.yaml"
+
+      - id: terraform-destroy
         if: ${{ always() }}
         run: terraform destroy -no-color -auto-approve -input=false

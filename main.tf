@@ -54,7 +54,7 @@ resource "aws_security_group" "k3s_https_access" {
   ingress                = [
     {
       cidr_blocks      = [ "0.0.0.0/0", ]
-      description      = ""
+      description      = "K3s port"
       from_port        = 6443
       ipv6_cidr_blocks = []
       prefix_list_ids  = []
@@ -62,6 +62,39 @@ resource "aws_security_group" "k3s_https_access" {
       security_groups  = []
       self             = false
       to_port          = 6443
+    },
+    {
+      cidr_blocks      = [ "0.0.0.0/0", ]
+      description      = "Dashboard port"
+      from_port        = 8443
+      ipv6_cidr_blocks = []
+      prefix_list_ids  = []
+      protocol         = "tcp"
+      security_groups  = []
+      self             = false
+      to_port          = 8443
+    },
+    {
+      cidr_blocks      = [ "0.0.0.0/0", ]
+      description      = "Dashboard port"
+      from_port        = 443
+      ipv6_cidr_blocks = []
+      prefix_list_ids  = []
+      protocol         = "tcp"
+      security_groups  = []
+      self             = false
+      to_port          = 443
+    },
+    {
+      cidr_blocks      = [ "0.0.0.0/0", ]
+      description      = "Dashboard port"
+      from_port        = 80
+      ipv6_cidr_blocks = []
+      prefix_list_ids  = []
+      protocol         = "tcp"
+      security_groups  = []
+      self             = false
+      to_port          = 80
     }
   ]
 }
@@ -80,9 +113,9 @@ resource "aws_instance" "controller" {
   ami           = "ami-0abaf6cca7f5c0e6a" # Ubuntu 22.04 ARM LTS in Frankfurt
   instance_type = "t4g.small"
   key_name      = aws_key_pair.access_key.key_name
-  security_groups = [ aws_security_group.egress_all.name, aws_security_group.ssh_access.name, aws_security_group.k3s_https_access.name ]
-
-  user_data = "${file("files/installK3sServer.sh")}"
+  security_groups = [ aws_security_group.egress_all.name,
+                      aws_security_group.ssh_access.name,
+                      aws_security_group.k3s_https_access.name ]
 
   tags = {
     Name = "controller"
@@ -90,22 +123,27 @@ resource "aws_instance" "controller" {
 }
 
 ## Trial 750h/month free UNTIL Dec 31st 2023! Revisit after trial over!
-#resource "aws_instance" "node" {
-#  ami           = "ami-0abaf6cca7f5c0e6a" # Ubuntu 22.04 ARM LTS in Frankfurt
-#  instance_type = "t4g.small"
-#  key_name      = aws_key_pair.accessKey.key_name
-#  security_groups = [ aws_security_group.ssh_access.name ]
-#  count = 3
-#
-#  tags = {
-#    Name = "node.${count.index}"
-#  }
-#
-#  depends_on = [
-#    aws_instance.controller
-#  ]
-#}
+resource "aws_instance" "node" {
+  ami           = "ami-0abaf6cca7f5c0e6a" # Ubuntu 22.04 ARM LTS in Frankfurt
+  instance_type = "t4g.small"
+  key_name      = aws_key_pair.access_key.key_name
+  security_groups = [ aws_security_group.ssh_access.name,
+                      aws_security_group.egress_all.name]
+  count = 3
 
-output "instance_ip_addr" {
+  tags = {
+    Name = "node.${count.index}"
+  }
+
+  depends_on = [
+    aws_instance.controller
+  ]
+}
+
+output "controller_ip_addr" {
   value = aws_instance.controller.public_ip
+}
+
+output "node_ip_addr" {
+  value = aws_instance.node.*.public_ip
 }
