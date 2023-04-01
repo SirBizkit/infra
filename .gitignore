@@ -4,7 +4,8 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=terraform,intellij
 
 # Don't upload keys
-keys/
+keys/*
+!keys/README.md
 
 build/
 
