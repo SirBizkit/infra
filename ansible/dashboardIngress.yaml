@@ -10,8 +10,6 @@ metadata:
     # Uncomment next if you use https://cert-manager.io/
     # cert-manager.io/cluster-issuer: "<YOUR CLUSTER ISSUER>"
 spec:
-  tls:
-      secretName: kubernetes-dashboard-cert # NONEXISTENT
   rules:
     - http:
         paths:
