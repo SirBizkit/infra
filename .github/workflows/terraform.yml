@@ -60,7 +60,7 @@ jobs:
       - id: host-template
         run: |
           export CONTROLLER_IPS=$(cat ansible/terraformOut.json | yq '.controller_ip_addr.value as $ip | $ip')
-          export NODE_IPS=$(cat ansible/terraformOut.json | yq '.node_ip_addr.value[0][] as $ips | $ips')
+          export NODE_IPS=$(cat ansible/terraformOut.json | yq '.node_ip_addr.value[] as $ips | $ips')
           echo $CONTROLLER_IPS
           echo $NODE_IPS
           cat ansible/hosts-template.ini | envsubst '${CONTROLLER_IPS} ${NODE_IPS}' > ansible/hosts.ini
