@@ -65,6 +65,6 @@ jobs:
           envsubst '$NODE_IPS' < ansible/hosts.ini
           cat ansible/hosts.ini
 
-      - id: terraform-destroy
-        if: ${{ always() }}
-        run: terraform destroy -no-color -auto-approve -input=false
+#      - id: terraform-destroy
+#        if: ${{ always() }}
+#        run: terraform destroy -no-color -auto-approve -input=false
