@@ -85,6 +85,6 @@ jobs:
             --inventory build/hosts.ini
             --extra-vars "@ansible/group_vars/all.yaml"
 
-#      - id: terraform-destroy
-#        if: ${{ always() }}
-#        run: terraform destroy -no-color -auto-approve -input=false
+      - id: terraform-destroy
+        if: ${{ always() }}
+        run: terraform destroy -no-color -auto-approve -input=false
