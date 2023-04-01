@@ -47,12 +47,12 @@ jobs:
       # TODO: Move generated hosts.ini to build/
       - id: host-template
         run: |
-          export CONTROLLER_IPS=$(cat ansible/terraformOut.json | yq '.controller_ip_addr.value as $ip | $ip')
-          export NODE_IPS=$(cat ansible/terraformOut.json | yq '.node_ip_addr.value[] as $ips | $ips')
+          export CONTROLLER_IPS=$(cat build/terraformOut.json | yq '.controller_ip_addr.value as $ip | $ip')
+          export NODE_IPS=$(cat build/terraformOut.json | yq '.node_ip_addr.value[] as $ips | $ips')
           echo $CONTROLLER_IPS
           echo $NODE_IPS
-          cat ansible/hosts-template.ini | envsubst '${CONTROLLER_IPS} ${NODE_IPS}' > ansible/hosts.ini
-          cat ansible/hosts.ini
+          cat ansible/hosts-template.ini | envsubst '${CONTROLLER_IPS} ${NODE_IPS}' > build/hosts.ini
+          cat build/hosts.ini
 
 #      - id: terraform-destroy
 #        if: ${{ always() }}
