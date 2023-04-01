@@ -37,18 +37,30 @@ jobs:
       - id: print-output
         run: echo "${{ steps.output.outputs.stdout }}"
 
-      - id: setup-yq
+      - id: copy-host-template
+        run: |
+          cp ansible/hosts-template.ini ansible/hosts.ini \
+          echo ${{ steps.output.outputs.stdout }} > ansible/terraformOut.json
+
+      - id: get-controller-ip
         uses: mikefarah/yq@v4.33.2
+        with:
+          cmd: yq '.controller_ip_addr.value as $ip | $ip' ansible/terraformOut.json
+
+      - id: get-node-ip
+        uses: mikefarah/yq@v4.33.2
+        with:
+          cmd: yq '.node_ip_addr.value[0][] as $ips | $ips' ansible/terraformOut.json
 
       # TODO: Turn controllerIps into a list like nodeIps
       # TODO: Add node names to ansible config
       # TODO: Move generated hosts.ini to build/
       - id: host-template
         run: |
-          cp ansible/hosts-template.ini ansible/hosts.ini; \
-          echo ${{ steps.output.outputs.stdout }} > ansible/terraformOut.json \
-          export CONTROLLER_IPS=$(cat ansible/terraformOut.json | yq e \'.controller_ip_addr.value as $ip | $ip\' -) \
-          export NODE_IPS=$(cat ansible/terraformOut.json | yq e \'.node_ip_addr.value[0][] as $ips | $ips\' -) \
+#          cp ansible/hosts-template.ini ansible/hosts.ini; \
+#          echo ${{ steps.output.outputs.stdout }} > ansible/terraformOut.json \
+          export CONTROLLER_IPS=echo "${{ steps.get-controller-ip.outputs.result }}" \
+          export NODE_IPS=echo "${{ steps.get-node-ip.outputs.result }}" \
           echo $CONTROLLER_IPS \
           echo $NODE_IPS \
           envsubst '$CONTROLLER_IPS' < ansible/hosts.ini \
