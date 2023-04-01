@@ -52,6 +52,7 @@ jobs:
           echo $CONTROLLER_IPS
           echo $NODE_IPS
           cat ansible/hosts-template.ini | envsubst '${CONTROLLER_IPS} ${NODE_IPS}' > build/hosts.ini
+          echo "Generated build/hosts.ini:"
           cat build/hosts.ini
 
 #      - id: terraform-destroy
