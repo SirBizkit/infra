@@ -6,11 +6,8 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "traefik"
     traefik.ingress.kubernetes.io/ssl-redirect: "true"
-#    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-    # nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-    # Uncomment next if you use https://cert-manager.io/
-    # cert-manager.io/cluster-issuer: "<YOUR CLUSTER ISSUER>"
 spec:
+  type: LoadBalancer
   defaultBackend:
     service:
       name: kubernetes-dashboard
