@@ -5,6 +5,16 @@
     kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
   changed_when: true
 
+- name: Copy nginx ingress controller configuration
+  copy:
+    src: "{{ playbook_dir }}/ingressController.yaml"
+    dest: "~/ingressController.yaml"
+
+- name: Apply nginx ingress controller configuration
+  command: >-
+    kubectl apply -f "~/ingressController.yaml"
+  changed_when: true
+
 - name: Copy dashnboard ingress definition
   copy:
     src: "{{ playbook_dir }}/dashboardIngress.yaml"
