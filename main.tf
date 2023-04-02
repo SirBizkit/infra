@@ -136,9 +136,9 @@ resource "aws_instance" "node" {
     Name = "node.${count.index}"
   }
 
-  depends_on = [
-    aws_instance.controller
-  ]
+#  depends_on = [
+#    aws_instance.controller
+#  ]
 }
 
 output "controller_ip_addr" {
