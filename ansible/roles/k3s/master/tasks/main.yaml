@@ -5,15 +5,20 @@
     kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
   changed_when: true
 
-- name: Copy nginx ingress controller configuration
-  copy:
-    src: "{{ playbook_dir }}/ingressController.yaml"
-    dest: "~/ingressController.yaml"
-
-- name: Apply nginx ingress controller configuration
+- name: Install Nginx Ingress Controller
   command: >-
-    kubectl apply -f "~/ingressController.yaml"
+    kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.7.0/deploy/static/provider/cloud/deploy.yaml
   changed_when: true
+
+#- name: Copy nginx ingress controller configuration
+#  copy:
+#    src: "{{ playbook_dir }}/ingressController.yaml"
+#    dest: "~/ingressController.yaml"
+#
+#- name: Apply nginx ingress controller configuration
+#  command: >-
+#    kubectl apply -f "~/ingressController.yaml"
+#  changed_when: true
 
 - name: Copy dashnboard ingress definition
   copy:
