@@ -95,6 +95,17 @@ resource "aws_security_group" "k3s_https_access" {
       security_groups  = []
       self             = false
       to_port          = 80
+    },
+    {
+      cidr_blocks      = [ "0.0.0.0/0", ]
+      description      = "Dashboard port"
+      from_port        = 30293
+      ipv6_cidr_blocks = []
+      prefix_list_ids  = []
+      protocol         = "tcp"
+      security_groups  = []
+      self             = false
+      to_port          = 30293
     }
   ]
 }
