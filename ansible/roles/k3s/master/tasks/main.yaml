@@ -5,12 +5,37 @@
     kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
   changed_when: true
 
+- name: Delete existing kubernetes-dashboard service
+  command: >-
+    kubectl -n kubernetes-dashboard delete service kubernetes-dashboard
+  changed_when: true
+
+- name: Copy Dashboard service definition
+  copy:
+    src: "{{ playbook_dir }}/dashboardService.yaml"
+    dest: "~/dashboardService.yaml"
+
+- name: Apply dashboard service config
+  command: >-
+    kubectl apply -f "~/dashboardService.yaml"
+  changed_when: true
+
 - name: Copy dashnboard ingress definition
   copy:
     src: "{{ playbook_dir }}/dashboardIngress.yaml"
     dest: "~/dashboardIngress.yaml"
 
-- name: Apply dashboard ingress config
+#- name: Apply dashboard ingress config
+#  command: >-
+#    kubectl apply -f "~/dashboardIngress.yaml"
+#  changed_when: true
+
+- name: Copy admin-user definition
+  copy:
+    src: "{{ playbook_dir }}/adminUser.yaml"
+    dest: "~/adminUser.yaml"
+
+- name: Create and bind admin-user
   command: >-
-    kubectl apply -f "~/dashboardIngress.yaml"
+    kubectl apply -f "~/adminUser.yaml"
   changed_when: true
