@@ -60,7 +60,7 @@ jobs:
         uses: dawidd6/action-ansible-playbook@v2
         with:
           # Required, playbook filepath
-          playbook: k3s-ansible/site.yml
+          playbook: k3s-ansible/playbook/site.yml
 
           # Optional, SSH private key
           key: ${{secrets.EC2_KEY_PAIR}}
