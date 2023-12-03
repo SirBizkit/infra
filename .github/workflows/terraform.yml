@@ -59,11 +59,11 @@ jobs:
       - id: run-ansible-playbook
         uses: dawidd6/action-ansible-playbook@v2
         with:
-          # Required, playbook filepath
-          playbook: k3s-ansible/playbook/site.yml
-
           # Optional, directory where playbooks live
           directory: k3s-ansible/playbook
+
+          # Required, playbook filepath
+          playbook: site.yml
 
           # Optional, SSH private key
           key: ${{secrets.EC2_KEY_PAIR}}
