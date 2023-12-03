@@ -73,7 +73,7 @@ jobs:
           # Optional, additional flags to pass to ansible-playbook
           options: |
             --inventory ../build/hosts.ini
-            --extra-vars ../ansible/group_vars/all.yaml
+            --extra-vars "@../ansible/group_vars/all.yaml"
 
       - id: ansible-install-dashboard
         uses: dawidd6/action-ansible-playbook@v2
