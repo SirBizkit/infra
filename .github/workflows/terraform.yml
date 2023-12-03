@@ -62,6 +62,9 @@ jobs:
           # Required, playbook filepath
           playbook: k3s-ansible/playbook/site.yml
 
+          # Optional, directory where playbooks live
+          directory: k3s-ansible/playbook
+
           # Optional, SSH private key
           key: ${{secrets.EC2_KEY_PAIR}}
 
