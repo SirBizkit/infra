@@ -60,7 +60,7 @@ jobs:
         uses: dawidd6/action-ansible-playbook@v2
         with:
           # Optional, directory where playbooks live
-          directory: k3s-ansible/playbook
+          directory: k3s-ansible
 
           # Required, playbook filepath
           playbook: site.yml
